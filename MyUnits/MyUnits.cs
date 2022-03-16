@@ -2,7 +2,7 @@
 
 namespace MyUnits
 {
-    public struct Units
+    public readonly struct Dimension
     {
         public readonly int length;
         public readonly int mass;
@@ -11,7 +11,7 @@ namespace MyUnits
         public readonly int temperature;
         public readonly int current;
 
-        public Units(
+        public Dimension(
             int length = 0,
             int mass = 0,
             int time = 0,
@@ -27,9 +27,9 @@ namespace MyUnits
             this.temperature = temperature;
         }
 
-        public static Units operator *(Units u1, Units u2)
+        public static Dimension operator *(Dimension u1, Dimension u2)
         {
-            return new Units(
+            return new Dimension(
                 length: u1.length + u2.length,
                 mass: u1.mass + u2.mass,
                 time: u1.time + u2.time,
@@ -39,9 +39,9 @@ namespace MyUnits
             );
         }
 
-        public static Units operator /(Units u1, Units u2)
+        public static Dimension operator /(Dimension u1, Dimension u2)
         {
-            return new Units(
+            return new Dimension(
                 length: u1.length - u2.length,
                 mass: u1.mass - u2.mass,
                 time: u1.time - u2.time,
@@ -51,35 +51,35 @@ namespace MyUnits
             );
         }
 
-        public static readonly Units Length = new Units(length: 1);
-        public static readonly Units Area = Length * Length;
-        public static readonly Units Volume = Area * Length;
+        public static readonly Dimension Length = new Dimension(length: 1);
+        public static readonly Dimension Area = Length * Length;
+        public static readonly Dimension Volume = Area * Length;
 
-        public static readonly Units Mass = new Units(mass: 1);
-        public static readonly Units Density = Mass / Volume;
+        public static readonly Dimension Mass = new Dimension(mass: 1);
+        public static readonly Dimension Density = Mass / Volume;
 
-        public static readonly Units Duration = new Units(time: 1);
-        public static readonly Units Speed = Length / Duration;
-        public static readonly Units Acceleration = Speed / Duration;
+        public static readonly Dimension Duration = new Dimension(time: 1);
+        public static readonly Dimension Speed = Length / Duration;
+        public static readonly Dimension Acceleration = Speed / Duration;
 
-        public static readonly Units Temperature = new Units(temperature: 1);
+        public static readonly Dimension Temperature = new Dimension(temperature: 1);
 
-        public static readonly Units Force = Mass * Acceleration;
-        public static readonly Units Energy = Force * Length;
-        public static readonly Units Power = Energy / Duration;
-        public static readonly Units SpecificEnergy = Energy / Mass;
-        public static readonly Units SpecificEntropy = Energy / Mass / Temperature;
+        public static readonly Dimension Force = Mass * Acceleration;
+        public static readonly Dimension Energy = Force * Length;
+        public static readonly Dimension Power = Energy / Duration;
+        public static readonly Dimension SpecificEnergy = Energy / Mass;
+        public static readonly Dimension SpecificEntropy = Energy / Mass / Temperature;
 
-        public static readonly Units Pressure = Force / Area;
+        public static readonly Dimension Pressure = Force / Area;
 
-        public static readonly Units AmountOfSubstance = new Units(amountOfSubstance: 1);
-        public static readonly Units MolarMass = Mass / AmountOfSubstance;
-        public static readonly Units MolarEnergy = Energy / AmountOfSubstance;
-        public static readonly Units MolarEntropy = Energy / AmountOfSubstance / Temperature;
+        public static readonly Dimension AmountOfSubstance = new Dimension(amountOfSubstance: 1);
+        public static readonly Dimension MolarMass = Mass / AmountOfSubstance;
+        public static readonly Dimension MolarEnergy = Energy / AmountOfSubstance;
+        public static readonly Dimension MolarEntropy = Energy / AmountOfSubstance / Temperature;
 
         public override bool Equals(object obj)
         {
-            return obj is Units units &&
+            return obj is Dimension units &&
                    length == units.length &&
                    mass == units.mass &&
                    time == units.time &&
@@ -100,52 +100,52 @@ namespace MyUnits
             return hashCode;
         }
 
-        public static bool operator ==(Units u1, Units u2) => u1.Equals(u2);
-        public static bool operator !=(Units u1, Units u2) => !u1.Equals(u2);
+        public static bool operator ==(Dimension u1, Dimension u2) => u1.Equals(u2);
+        public static bool operator !=(Dimension u1, Dimension u2) => !u1.Equals(u2);
     }
 
     public struct Quantity
     {
         public readonly double scalar;
-        public readonly Units units;
+        public readonly Dimension dimension;
 
-        public Quantity(double scalar, Units units)
+        public Quantity(double scalar, Dimension dimension)
         {
             this.scalar = scalar;
-            this.units = units;
+            this.dimension = dimension;
         }
 
         public static Quantity operator +(Quantity q1, Quantity q2)
         {
-            if (q1.units != q2.units)
-                throw new ArgumentException($"units do not match: {q1.units}, {q2.units}");
-            return new Quantity(q1.scalar + q2.scalar, q1.units);
+            if (q1.dimension != q2.dimension)
+                throw new ArgumentException($"dimensions do not match: {q1.dimension}, {q2.dimension}");
+            return new Quantity(q1.scalar + q2.scalar, q1.dimension);
         }
 
         public static Quantity operator -(Quantity q1, Quantity q2)
         {
-            if (q1.units != q2.units)
-                throw new ArgumentException($"units do not match: {q1.units}, {q2.units}");
-            return new Quantity(q1.scalar - q2.scalar, q1.units);
+            if (q1.dimension != q2.dimension)
+                throw new ArgumentException($"dimensions do not match: {q1.dimension}, {q2.dimension}");
+            return new Quantity(q1.scalar - q2.scalar, q1.dimension);
         }
 
         public static Quantity operator *(Quantity q1, Quantity q2)
         {
-            return new Quantity(q1.scalar * q2.scalar, q1.units * q2.units);
+            return new Quantity(q1.scalar * q2.scalar, q1.dimension * q2.dimension);
         }
 
         public static Quantity operator /(Quantity q1, Quantity q2)
         {
-            return new Quantity(q1.scalar / q2.scalar, q1.units / q2.units);
+            return new Quantity(q1.scalar / q2.scalar, q1.dimension / q2.dimension);
         }
     }
 
     public static class QuantityExtensions
     {
-        public static Quantity Assert(this Quantity q, Units expected)
+        public static Quantity Assert(this Quantity q, Dimension expected)
         {
-            if (q.units != expected)
-                throw new ArgumentException($"units do not match expectation: {q.units}");
+            if (q.dimension != expected)
+                throw new ArgumentException($"dimension does not match expectation: {q.dimension}");
             return q;
         }
     }
