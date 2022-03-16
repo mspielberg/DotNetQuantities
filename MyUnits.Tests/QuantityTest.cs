@@ -1,9 +1,8 @@
-using System;
 using Xunit;
 
 namespace MyUnits.Tests
 {
-    public class UnitTest1
+    public class QuantityTest
     {
         [Fact]
         public void TestGasConstant()
@@ -19,10 +18,19 @@ namespace MyUnits.Tests
         public void TestSpeed()
         {
             var distance = new Quantity(60, Dimension.Length);
-            var time = new Quantity(3600, Dimension.Duration);
+            var time = new Quantity(3600, Dimension.Time);
             var speed = distance / time;
             Assert.Equal(Dimension.Speed, speed.dimension);
             Assert.Equal(0.016667, speed.scalar, 6);
+        }
+
+        [Fact]
+        public void TestAssertDimension()
+        {
+            var distance = new Quantity(10, Dimension.Length);
+            var typed = distance.Assert<Dimensions.Length>();
+            Assert.IsType<Quantity<Dimensions.Length>>(typed);
+            Assert.Equal(Dimension.Length, typed.dimension);
         }
     }
 }
