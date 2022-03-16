@@ -1,7 +1,7 @@
-using System.Linq;
+using System.Collections.Generic;
 using System.Text;
 
-namespace MyUnits
+namespace MyUnits.Generator
 {
     public class Dimension
     {
@@ -70,6 +70,25 @@ namespace MyUnits
             return sb.ToString();
         }
 
+        public string CodeGen()
+        {
+            var sb = new StringBuilder();
+            if (length != 0)
+              sb.Append("length: ").Append(length).Append(", ");
+            if (mass != 0)
+              sb.Append("mass: ").Append(mass).Append(", ");
+            if (time != 0)
+              sb.Append("time: ").Append(time).Append(", ");
+            if (current != 0)
+              sb.Append("current: ").Append(current).Append(", ");
+            if (amountOfSubstance != 0)
+              sb.Append("amountOfSubstance: ").Append(amountOfSubstance).Append(", ");
+            if (temperature != 0)
+              sb.Append("temperature: ").Append(temperature).Append(", ");
+            sb.Remove(sb.Length - 2, 2);
+            return $"new Dimension({sb})";
+        }
+
         public override bool Equals(object obj)
         {
             return obj is Dimension units &&
@@ -97,8 +116,43 @@ namespace MyUnits
         public static bool operator !=(Dimension u1, Dimension u2) => !u1.Equals(u2);
     }
 
-    public interface IDimension
+    public static class NamedDimensions
     {
-        Dimension Dimension { get; }
+        public static readonly Dictionary<string, Dimension> dimensions = new Dictionary<string, Dimension>();
+        public static readonly Dictionary<Dimension, string> names = new Dictionary<Dimension, string>();
+
+        static NamedDimensions()
+        {
+            var d = dimensions;
+            
+            d["Length"] = new Dimension(length: 1);
+            d["Area"] = d["Length"] * d["Length"];
+            d["Volume"] = d["Area"] * d["Length"];
+
+            d["Mass"] = new Dimension(mass: 1);
+            d["Density"] = d["Mass"] / d["Volume"];
+
+            d["Time"] = new Dimension(time: 1);
+            d["Speed"] = d["Length"] / d["Time"];
+            d["Acceleration"] = d["Speed"] / d["Time"];
+
+            d["Temperature"] = new Dimension(temperature: 1);
+
+            d["Force"] = d["Mass"] * d["Acceleration"];
+            d["Energy"] = d["Force"] * d["Length"];
+            d["Power"] = d["Energy"] / d["Time"];
+            d["SpecificEnergy"] = d["Energy"] / d["Mass"];
+            d["SpecificEntropy"] = d["SpecificEnergy"] / d["Temperature"];
+
+            d["Pressure"] = d["Force"] / d["Area"];
+
+            d["AmountOfSubstance"] = new Dimension(amountOfSubstance: 1);
+            d["MolarMass"] = d["Mass"] / d["AmountOfSubstance"];
+            d["MolarEnergy"] = d["Energy"] / d["AmountOfSubstance"];
+            d["MolarEntropy"] = d["MolarEnergy"] / d["Temperature"];
+
+            foreach (var kvp in d)
+                names[kvp.Value] = kvp.Key;
+        }
     }
 }

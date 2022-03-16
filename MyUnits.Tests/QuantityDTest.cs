@@ -11,7 +11,7 @@ namespace MyUnits.Tests
         {
             var typed = new Quantity<Length>(4);
             Assert.IsType<Quantity<Length>>(typed);
-            Assert.Equal(Dimension.Length, typed.dimension);
+            Assert.Equal(Length.dimension, typed.dimension);
         }
 
         [Fact]
