@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <RootNamespace>dotnet_myunits</RootNamespace>
+    <RootNamespace>MyUnits</RootNamespace>
   </PropertyGroup>
 
 </Project>
