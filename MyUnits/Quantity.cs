@@ -14,6 +14,12 @@ namespace MyUnits
             this.dimension = dimension;
         }
 
+        public Quantity(double scalar, Unit unit)
+        {
+            this.scalar = (scalar * unit.Scalar) + unit.Offset;
+            this.dimension = unit.Dimension;
+        }
+
         public override bool Equals(object obj)
         {
             return obj is Quantity quantity &&
@@ -39,7 +45,14 @@ namespace MyUnits
             return !q1.Equals(q2);
         }
 
-        public static Quantity operator +(Quantity q1, Quantity q2)
+        public double In(Unit unit)
+        {
+            if (dimension != unit.Dimension)
+                throw new ArgumentException($"dimensions do not match: {dimension}, {unit.Dimension}");
+            return (scalar - unit.Offset) / unit.Scalar;
+        }
+
+       public static Quantity operator +(Quantity q1, Quantity q2)
         {
             if (q1.dimension != q2.dimension)
                 throw new ArgumentException($"dimensions do not match: {q1.dimension}, {q2.dimension}");
