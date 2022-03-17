@@ -124,7 +124,7 @@ namespace MyUnits.Generator
         static NamedDimensions()
         {
             var d = dimensions;
-            
+
             d["Length"] = new Dimension(length: 1);
             d["Area"] = d["Length"] * d["Length"];
             d["Volume"] = d["Area"] * d["Length"];
@@ -139,13 +139,11 @@ namespace MyUnits.Generator
             d["Temperature"] = new Dimension(temperature: 1);
 
             d["Force"] = d["Mass"] * d["Acceleration"];
+            d["Pressure"] = d["Force"] / d["Area"];
             d["Energy"] = d["Force"] * d["Length"];
             d["Power"] = d["Energy"] / d["Time"];
             d["SpecificEnergy"] = d["Energy"] / d["Mass"];
             d["SpecificEntropy"] = d["SpecificEnergy"] / d["Temperature"];
-
-            d["Pressure"] = d["Force"] / d["Area"];
-
             d["AmountOfSubstance"] = new Dimension(amountOfSubstance: 1);
             d["MolarMass"] = d["Mass"] / d["AmountOfSubstance"];
             d["MolarEnergy"] = d["Energy"] / d["AmountOfSubstance"];

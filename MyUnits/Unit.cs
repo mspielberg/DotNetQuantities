@@ -1,3 +1,4 @@
+using System;
 using MyUnits.Dimensions;
 
 namespace MyUnits
@@ -25,17 +26,41 @@ namespace MyUnits
                 scalar,
                 offset);
         }
+
+        public static Unit operator * (double s, Unit u)
+        {
+            return new Unit(u.Dimension, s * u.Scalar);
+        }
+
+        public static Unit operator * (Unit u1, Unit u2)
+        {
+            if (u1.Offset != 0 || u2.Offset != 0)
+                throw new ArgumentException("Can only combine non-offset units");
+            return new Unit(u1.Dimension * u2.Dimension, u1.Scalar * u2.Scalar);
+        }
+
+        public static Unit operator / (Unit u1, Unit u2)
+        {
+            if (u1.Offset != 0 || u2.Offset != 0)
+                throw new ArgumentException("Can only combine non-offset units");
+            return new Unit(u1.Dimension / u2.Dimension, u1.Scalar / u2.Scalar);
+        }
      }
 
     public static class Units
     {
-        public static readonly Unit Millimeter = Unit.Of<Length>(1e-3);
-        public static readonly Unit Centimeter = Unit.Of<Length>(1e-2);
-        public static readonly Unit Kilometer  = Unit.Of<Length>(1e+3);
-        public static readonly Unit Inch = Unit.Of<Length>(0.0254);
-        public static readonly Unit Foot = Unit.Of<Length>(0.3048);
-        public static readonly Unit Yard = Unit.Of<Length>(0.9144);
-        public static readonly Unit Mile = Unit.Of<Length>(1609.344);
+        public static readonly Unit Meter = Unit.Of<Length>(1);
+        public static readonly Unit Millimeter = 1e-3 * Meter;
+        public static readonly Unit Centimeter = 1e-2 * Meter;
+        public static readonly Unit Kilometer  = 1000 * Meter;
+        public static readonly Unit Inch = 2.54 * Centimeter;
+        public static readonly Unit Foot = 12 * Inch;
+        public static readonly Unit Yard = 3 * Foot;
+        public static readonly Unit Mile = 1760 * Yard;
+
+        public static readonly Unit Second = Unit.Of<Time>(1);
+        public static readonly Unit Minute = 60 * Second;
+        public static readonly Unit Hour = 60 * Minute;
 
         public static readonly Unit Kelvin = Unit.Of<Temperature>(1, 0);
         public static readonly Unit Celsius = Unit.Of<Temperature>(1, 273.15);

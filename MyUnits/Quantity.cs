@@ -98,7 +98,12 @@ namespace MyUnits
         where D : IDimension, new()
     {
         private static Dimension Dimension(Type t) => (Dimension)t.GetProperty("Dimension").GetValue(new D());
+
         public Quantity(double scalar) : base(scalar, Dimension(typeof(D)))
+        {
+        }
+
+        public Quantity(double scalar, Unit unit) : base(scalar, unit)
         {
         }
 

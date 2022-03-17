@@ -6,6 +6,13 @@ namespace MyUnits
     public class UnitTest
     {
         [Fact]
+        public void SpeedTest()
+        {
+            Assert.Equal(3.6, new Quantity(1, Meter / Second).In(Kilometer / Hour), 10);
+            Assert.Equal(96.5606, new Quantity(60, Mile / Hour).In(Kilometer / Hour), 4);
+        }
+
+        [Fact]
         public void AbsoluteZeroTest()
         {
             Assert.Equal(0, new Quantity(-273.15, Celsius).In(Kelvin));

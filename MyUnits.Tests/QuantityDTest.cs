@@ -50,5 +50,15 @@ namespace MyUnits.Tests
             Assert.IsType<Quantity<Area>>(q3);
             Assert.Equal(new Quantity<Area>(6), q3);
         }
+
+        [Fact]
+        public void TestGeneratedConversions()
+        {
+            var d = new Quantities.Length(1, Units.Mile);
+            var t = new Quantities.Time(1, Units.Minute);
+            var s = d / t;
+            Assert.IsAssignableFrom<Quantity<Speed>>(s);
+            Assert.Equal(60, s.In(Units.Mile / Units.Hour));
+        }
     }
 }
