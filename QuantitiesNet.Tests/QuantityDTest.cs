@@ -15,6 +15,12 @@ namespace QuantitiesNet.Tests
         }
 
         [Fact]
+        public void TestConstructIncompatible()
+        {
+            Assert.Throws<ArgumentException>(() => new Quantity<Length>(10, Units.Hour));
+        }
+
+        [Fact]
         public void TestAdd()
         {
             var q1 = new Quantity<Length>(1);

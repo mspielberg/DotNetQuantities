@@ -103,6 +103,8 @@ namespace QuantitiesNet
 
         public Quantity(double scalar, Unit unit) : base(scalar, unit)
         {
+            if (unit.Dimension != Dimension.ForType<D>())
+                throw new ArgumentException($"dimension does not match expectation: {unit.Dimension}");
         }
 
         public static Quantity<D> operator +(Quantity<D> q, Quantity<D> q2)
