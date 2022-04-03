@@ -38,5 +38,11 @@ namespace QuantitiesNet
             Assert.Equal(100, new Quantity(373.15, Kelvin).In(Celsius));
             Assert.Equal(100, new Quantity(212, Fahrenheit).In(Celsius), 10);
         }
+
+        [Fact]
+        public void PrefixesShouldRenderWithoutSpace()
+        {
+            Assert.Equal("km", Kilometer.Symbol);
+        }
     }
 }

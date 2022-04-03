@@ -1,9 +1,9 @@
-using System.Linq;
+using System;
 using System.Text;
 
 namespace QuantitiesNet
 {
-    public class Dimension
+    public class Dimension : IEquatable<Dimension>
     {
         public readonly int length;
         public readonly int mass;
@@ -70,15 +70,19 @@ namespace QuantitiesNet
             return sb.ToString();
         }
 
+        public bool Equals(Dimension other)
+        {
+            return length == other.length &&
+                   mass == other.mass &&
+                   time == other.time &&
+                   amountOfSubstance == other.amountOfSubstance &&
+                   temperature == other.temperature &&
+                   current == other.current;
+        }
+
         public override bool Equals(object obj)
         {
-            return obj is Dimension units &&
-                   length == units.length &&
-                   mass == units.mass &&
-                   time == units.time &&
-                   amountOfSubstance == units.amountOfSubstance &&
-                   temperature == units.temperature &&
-                   current == units.current;
+            return obj is Dimension other && Equals(other);
         }
 
         public override int GetHashCode()

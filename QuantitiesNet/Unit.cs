@@ -4,7 +4,7 @@ using static QuantitiesNet.Prefixes;
 
 namespace QuantitiesNet
 {
-    public readonly struct Unit
+    public readonly struct Unit : IDimension
     {
         public string Symbol { get; }
         public Dimension Dimension { get; }
@@ -29,20 +29,24 @@ namespace QuantitiesNet
         }
 
         public static Unit Of<D>(string symbol, double scalar, double offset = 0)
-            where D : IDimension, new()
+        where D : IDimension, new()
         {
-            return new Unit(
+            var u = new Unit(
                 symbol,
                 Dimension.ForType<D>(),
                 scalar,
                 offset);
+            UnitRegistry.Default.Register(u);
+            return u;
         }
 
-        public static Unit operator * (Prefix p, Unit u)
+        public static Unit operator * (Prefix p, Unit baseUnit)
         {
-            if (u.Offset != 0)
+            if (baseUnit.Offset != 0)
                 throw new ArgumentException("Can only combine non-offset units");
-            return new Unit(p.symbol + u.Symbol, u.Dimension, p.scalar * u.Scalar);
+            var u = new Unit(p.symbol + baseUnit.Symbol, baseUnit.Dimension, p.scalar * baseUnit.Scalar);
+            UnitRegistry.Default.Register(u);
+            return u;
         }
 
         // U+22C5 DOT OPERATOR
@@ -64,6 +68,10 @@ namespace QuantitiesNet
 
     public static class Units
     {
+        // static constructor ensures that all static fields are initialized before Initialize() completes.
+        static Units() { }
+        public static void Initialize() { }
+
         public static readonly Unit Meter = Unit.Of<Length>("m", 1);
         public static readonly Unit Millimeter = Milli * Meter;
         public static readonly Unit Centimeter = Centi * Meter;
