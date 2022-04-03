@@ -33,7 +33,7 @@ namespace QuantitiesNet
         {
             return new Unit(
                 symbol,
-                (Dimension)typeof(D).GetProperty("Dimension").GetValue(new D()),
+                Dimension.ForType<D>(),
                 scalar,
                 offset);
         }

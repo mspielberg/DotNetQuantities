@@ -88,7 +88,7 @@ namespace QuantitiesNet
 
         public static Quantity<D> Assert<D>(this Quantity q) where D : IDimension, new()
         {
-            if (q.dimension != (Dimension)typeof(D).GetProperty("Dimension").GetValue(new D()))
+            if (q.dimension != Dimension.ForType<D>())
                 throw new ArgumentException($"dimension does not match expectation: {q.dimension}");
             return new Quantity<D>(q.scalar);
         }
@@ -97,9 +97,7 @@ namespace QuantitiesNet
     public class Quantity<D> : Quantity
         where D : IDimension, new()
     {
-        private static Dimension Dimension(Type t) => (Dimension)t.GetProperty("Dimension").GetValue(new D());
-
-        public Quantity(double scalar) : base(scalar, Dimension(typeof(D)))
+        public Quantity(double scalar) : base(scalar, Dimension.ForType<D>())
         {
         }
 

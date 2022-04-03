@@ -95,6 +95,8 @@ namespace QuantitiesNet
 
         public static bool operator ==(Dimension u1, Dimension u2) => u1.Equals(u2);
         public static bool operator !=(Dimension u1, Dimension u2) => !u1.Equals(u2);
+
+        public static Dimension ForType<D>() where D : IDimension, new() => new D().Dimension;
     }
 
     public interface IDimension
