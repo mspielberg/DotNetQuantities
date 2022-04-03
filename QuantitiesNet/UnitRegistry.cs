@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -15,7 +14,7 @@ namespace QuantitiesNet
 
         public Unit GetUnit(string symbol) => units.Values.SelectMany(x => x).First(u => u.Symbol == symbol);
 
-        public void Register(Unit u)
+        public void Add(Unit u)
         {
             if (!units.TryGetValue(u.Dimension, out var set))
                 units[u.Dimension] = set = new HashSet<Unit>();

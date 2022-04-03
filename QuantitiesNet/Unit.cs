@@ -31,22 +31,23 @@ namespace QuantitiesNet
         public static Unit Of<D>(string symbol, double scalar, double offset = 0)
         where D : IDimension, new()
         {
-            var u = new Unit(
+            return new Unit(
                 symbol,
                 Dimension.ForType<D>(),
                 scalar,
                 offset);
-            UnitRegistry.Default.Register(u);
-            return u;
+        }
+
+        public Unit WithSymbol(string symbol)
+        {
+            return new Unit(symbol, Dimension, Scalar, Offset);
         }
 
         public static Unit operator * (Prefix p, Unit baseUnit)
         {
             if (baseUnit.Offset != 0)
                 throw new ArgumentException("Can only combine non-offset units");
-            var u = new Unit(p.symbol + baseUnit.Symbol, baseUnit.Dimension, p.scalar * baseUnit.Scalar);
-            UnitRegistry.Default.Register(u);
-            return u;
+            return new Unit(p.symbol + baseUnit.Symbol, baseUnit.Dimension, p.scalar * baseUnit.Scalar);
         }
 
         // U+22C5 DOT OPERATOR
@@ -72,22 +73,42 @@ namespace QuantitiesNet
         static Units() { }
         public static void Initialize() { }
 
-        public static readonly Unit Meter = Unit.Of<Length>("m", 1);
-        public static readonly Unit Millimeter = Milli * Meter;
-        public static readonly Unit Centimeter = Centi * Meter;
-        public static readonly Unit Kilometer  = Kilo * Meter;
-        public static readonly Unit Inch = new Unit("in", 2.54f, Centimeter);
-        public static readonly Unit Foot = new Unit("ft", 12, Inch);
-        public static readonly Unit Yard = new Unit("yd", 3, Foot);
-        public static readonly Unit Mile = new Unit("mi", 1760, Yard);
+        private static Unit Register(Unit u)
+        {
+            UnitRegistry.Default.Add(u);
+            return u;
+        }
 
-        public static readonly Unit Second = Unit.Of<Time>("s", 1);
-        public static readonly Unit Minute = new Unit("m", 60, Second);
-        public static readonly Unit Hour = new Unit("h", 60, Minute);
+        // Length
+        public static readonly Unit Meter = Register(Unit.Of<Length>("m", 1));
+        public static readonly Unit Millimeter = Register(Milli * Meter);
+        public static readonly Unit Centimeter = Register(Centi * Meter);
+        public static readonly Unit Kilometer  = Register(Kilo * Meter);
+        public static readonly Unit Inch = Register(new Unit("in", 2.54f, Centimeter));
+        public static readonly Unit Foot = Register(new Unit("ft", 12, Inch));
+        public static readonly Unit Yard = Register(new Unit("yd", 3, Foot));
+        public static readonly Unit Mile = Register(new Unit("mi", 1760, Yard));
 
+        // Mass
+        public static readonly Unit Gram = Register(Unit.Of<Mass>("g", 1));
+        public static readonly Unit Milligram = Register(Milli * Gram);
+        public static readonly Unit Kilogram = Register(Kilo * Gram);
+
+        // Time
+        public static readonly Unit Second = Register(Unit.Of<Time>("s", 1));
+        public static readonly Unit Minute = Register(new Unit("m", 60, Second));
+        public static readonly Unit Hour = Register(new Unit("h", 60, Minute));
+
+        // Temperature
         // U+00B0 DEGREE SIGN
-        public static readonly Unit Kelvin = Unit.Of<Temperature>("K", 1, 0);
-        public static readonly Unit Celsius = Unit.Of<Temperature>("\u00B0C", 1, 273.15);
-        public static readonly Unit Fahrenheit = Unit.Of<Temperature>("\u00B0F", 5 / 9.0, 273.15 - (32 * 5 / 9.0));
+        public static readonly Unit Kelvin = Register(Unit.Of<Temperature>("K", 1, 0));
+        public static readonly Unit Celsius = Register(Unit.Of<Temperature>("\u00B0C", 1, 273.15));
+        public static readonly Unit Fahrenheit = Register(Unit.Of<Temperature>("\u00B0F", 5 / 9.0, 273.15 - (32 * 5 / 9.0)));
+
+        // Energy
+        public static readonly Unit Joule = Register(Unit.Of<Energy>("J", 1));
+
+        // Velocity
+        public static readonly Unit MilePerHour = Register((Mile / Hour).WithSymbol("mph"));
     }
 }

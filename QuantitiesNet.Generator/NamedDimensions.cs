@@ -133,8 +133,8 @@ namespace QuantitiesNet.Generator
             d["Density"] = d["Mass"] / d["Volume"];
 
             d["Time"] = new Dimension(time: 1);
-            d["Speed"] = d["Length"] / d["Time"];
-            d["Acceleration"] = d["Speed"] / d["Time"];
+            d["Velocity"] = d["Length"] / d["Time"];
+            d["Acceleration"] = d["Velocity"] / d["Time"];
 
             d["Temperature"] = new Dimension(temperature: 1);
 
@@ -143,11 +143,11 @@ namespace QuantitiesNet.Generator
             d["Energy"] = d["Force"] * d["Length"];
             d["Power"] = d["Energy"] / d["Time"];
             d["SpecificEnergy"] = d["Energy"] / d["Mass"];
-            d["SpecificEntropy"] = d["SpecificEnergy"] / d["Temperature"];
+            d["SpecificHeatCapacity"] = d["SpecificEnergy"] / d["Temperature"];
             d["AmountOfSubstance"] = new Dimension(amountOfSubstance: 1);
             d["MolarMass"] = d["Mass"] / d["AmountOfSubstance"];
             d["MolarEnergy"] = d["Energy"] / d["AmountOfSubstance"];
-            d["MolarEntropy"] = d["MolarEnergy"] / d["Temperature"];
+            d["MolarHeatCapacity"] = d["MolarEnergy"] / d["Temperature"];
 
             foreach (var kvp in d)
                 names[kvp.Value] = kvp.Key;

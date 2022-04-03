@@ -8,21 +8,21 @@ namespace QuantitiesNet.Tests
         [Fact]
         public void TestGasConstant()
         {
-            var IdealGasConstant = new Quantity(8.31451e-3, MolarEntropy.dimension);
+            var IdealGasConstant = new Quantity(8.31451e-3, MolarHeatCapacity.dimension);
             var SteamMolarMass = new Quantity(18.015257e-3, MolarMass.dimension);
             var SpecificSteamGasConstant = IdealGasConstant / SteamMolarMass;
-            Assert.Equal(SpecificEntropy.dimension, SpecificSteamGasConstant.dimension);
+            Assert.Equal(SpecificHeatCapacity.dimension, SpecificSteamGasConstant.dimension);
             Assert.Equal(0.461526, SpecificSteamGasConstant.scalar, precision: 6);
         }
 
         [Fact]
-        public void TestSpeed()
+        public void TestVelocity()
         {
             var distance = new Quantity(60, Length.dimension);
             var time = new Quantity(3600, Time.dimension);
-            var speed = distance / time;
-            Assert.Equal(Speed.dimension, speed.dimension);
-            Assert.Equal(0.016667, speed.scalar, 6);
+            var velocity = distance / time;
+            Assert.Equal(Velocity.dimension, velocity.dimension);
+            Assert.Equal(0.016667, velocity.scalar, 6);
         }
 
         [Fact]

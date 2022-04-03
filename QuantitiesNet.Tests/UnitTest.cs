@@ -40,6 +40,13 @@ namespace QuantitiesNet
         }
 
         [Fact]
+        public void SymbolsShouldIncludeOperators()
+        {
+            Assert.Equal("J*K", (Joule * Kelvin).Symbol);
+            Assert.Equal("km/h", (Kilometer / Hour).Symbol);
+        }
+
+        [Fact]
         public void PrefixesShouldRenderWithoutSpace()
         {
             Assert.Equal("km", Kilometer.Symbol);

@@ -62,9 +62,9 @@ namespace QuantitiesNet.Tests
         {
             var d = new Quantities.Length(1, Units.Mile);
             var t = new Quantities.Time(1, Units.Minute);
-            var s = d / t;
-            Assert.IsAssignableFrom<Quantity<Speed>>(s);
-            Assert.Equal(60, s.In(Units.Mile / Units.Hour));
+            var v = d / t;
+            Assert.IsAssignableFrom<Quantity<Velocity>>(v);
+            Assert.Equal(60, v.In(Units.MilePerHour));
         }
     }
 }
