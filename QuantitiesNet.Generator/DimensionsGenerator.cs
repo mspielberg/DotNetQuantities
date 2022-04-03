@@ -2,25 +2,25 @@
 using System.Text;
 using Microsoft.CodeAnalysis;
 
-namespace MyUnits.Generator
+namespace QuantitiesNet.Generator
 {
     [Generator]
-    public class QuantitiesGenerator : ISourceGenerator
+    public class DimensionsGenerator : ISourceGenerator
     {
         public void Execute(GeneratorExecutionContext context)
         {
             var classes = NamedDimensions.dimensions.Keys.Select(GenerateSingle);
 
             string source = $@"
-namespace MyUnits
+namespace QuantitiesNet
 {{
-    namespace Quantities
+    namespace Dimensions
     {{
 {string.Join("\n", classes)}
     }}
 }}
 ";
-            context.AddSource("Quantities.g.cs", source);
+            context.AddSource("Dimensions.g.cs", source);
         }
 
         public void Initialize(GeneratorInitializationContext context)
@@ -36,16 +36,12 @@ namespace MyUnits
                 .Append(@"
         public sealed class ")
                 .Append(name)
-                .Append(" : Quantity<Dimensions.")
-                .Append(name)
-                .Append(@">
+                .Append(@" : IDimension
         {
-            public ")
-                .Append(name)
-                .Append(@"(double scalar) : base(scalar) { }
-            public ")
-                .Append(name)
-                .Append(@"(double scalar, Unit unit) : base(scalar, unit) { }
+            public static readonly Dimension dimension = ")
+                .Append(dim.CodeGen())
+                .Append(@";
+            public Dimension Dimension => dimension;
 ");
 
             foreach (var otherName in NamedDimensions.dimensions.Keys.OrderBy(x => x))
@@ -66,13 +62,13 @@ namespace MyUnits
         public string MultiplyOperator(string leftName, string rightName, string productName)
         {
             return $@"
-            public static {productName} operator * ({leftName} lhs, {rightName} rhs) => new {productName}(lhs.scalar * rhs.scalar);";
+            public static {productName} operator * ({leftName} lhs, {rightName} rhs) => new {productName}();";
         }
 
         public string DivideOperator(string leftName, string rightName, string quotientName)
         {
             return $@"
-            public static {quotientName} operator / ({leftName} lhs, {rightName} rhs) => new {quotientName}(lhs.scalar / rhs.scalar);";
+            public static {quotientName} operator / ({leftName} lhs, {rightName} rhs) => new {quotientName}();";
         }
     }
 }

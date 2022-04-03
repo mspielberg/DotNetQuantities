@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace MyUnits
+namespace QuantitiesNet
 {
     public class Quantity
     {

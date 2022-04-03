@@ -1,7 +1,7 @@
 using System.Linq;
 using System.Text;
 
-namespace MyUnits
+namespace QuantitiesNet
 {
     public class Dimension
     {

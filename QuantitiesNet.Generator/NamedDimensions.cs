@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace MyUnits.Generator
+namespace QuantitiesNet.Generator
 {
     public class Dimension
     {

@@ -1,8 +1,8 @@
 using System;
-using MyUnits.Dimensions;
+using QuantitiesNet.Dimensions;
 using Xunit;
 
-namespace MyUnits.Tests
+namespace QuantitiesNet.Tests
 {
     public class QuantityDTest
     {

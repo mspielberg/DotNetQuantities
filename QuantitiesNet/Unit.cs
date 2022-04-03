@@ -1,7 +1,7 @@
 using System;
-using MyUnits.Dimensions;
+using QuantitiesNet.Dimensions;
 
-namespace MyUnits
+namespace QuantitiesNet
 {
     public readonly struct Unit
     {

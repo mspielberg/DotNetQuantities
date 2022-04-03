@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26124.0
 MinimumVisualStudioVersion = 15.0.26124.0
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyUnits", "MyUnits\MyUnits.csproj", "{9574F994-D7A6-479C-87AC-083AB517AB02}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuantitiesNet", "QuantitiesNet\QuantitiesNet.csproj", "{9574F994-D7A6-479C-87AC-083AB517AB02}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyUnits.Tests", "MyUnits.Tests\MyUnits.Tests.csproj", "{FB893365-CFBE-429E-9F4E-6E3F0D84A10E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuantitiesNet.Tests", "QuantitiesNet.Tests\QuantitiesNet.Tests.csproj", "{FB893365-CFBE-429E-9F4E-6E3F0D84A10E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyUnits.Generator", "MyUnits.Generator\MyUnits.Generator.csproj", "{6029FEE0-92C5-4342-9CC6-44DF2231BEAE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuantitiesNet.Generator", "QuantitiesNet.Generator\QuantitiesNet.Generator.csproj", "{6029FEE0-92C5-4342-9CC6-44DF2231BEAE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

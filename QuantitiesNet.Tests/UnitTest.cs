@@ -1,7 +1,7 @@
-using static MyUnits.Units;
+using static QuantitiesNet.Units;
 using Xunit;
 
-namespace MyUnits
+namespace QuantitiesNet
 {
     public class UnitTest
     {

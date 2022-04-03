@@ -20,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MyUnits\MyUnits.csproj" />
+    <ProjectReference Include="..\QuantitiesNet\QuantitiesNet.csproj" />
   </ItemGroup>
 
 </Project>
