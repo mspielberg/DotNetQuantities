@@ -103,8 +103,10 @@ namespace QuantitiesNet
         public static Dimension ForType<D>() where D : IDimension, new() => new D().Dimension;
     }
 
+    // <summary>Marker interface for a class that inherently (statically) knows its own dimension.</summary>
     public interface IDimension
     {
-        Dimension Dimension { get; }
+         // <summary>Has the same value in every instance, including an instance created by the parameterless constructor.</summary>
+         Dimension Dimension { get; }
     }
 }
