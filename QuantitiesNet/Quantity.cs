@@ -94,9 +94,13 @@ namespace QuantitiesNet
         }
     }
 
-    public class Quantity<D> : Quantity
+    public class Quantity<D> : Quantity, IDimension
         where D : IDimension, new()
     {
+        public Quantity() : base (default, Dimension.ForType<D>())
+        {
+        }
+
         public Quantity(double scalar) : base(scalar, Dimension.ForType<D>())
         {
         }
@@ -106,6 +110,8 @@ namespace QuantitiesNet
             if (unit.Dimension != Dimension.ForType<D>())
                 throw new ArgumentException($"dimension does not match expectation: {unit.Dimension}");
         }
+
+        public Dimension Dimension => Dimension.ForType<D>();
 
         public static Quantity<D> operator +(Quantity<D> q, Quantity<D> q2)
         {

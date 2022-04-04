@@ -42,6 +42,9 @@ namespace QuantitiesNet
         {
             public ")
                 .Append(name)
+                .Append(@"() : base() { }
+            public ")
+                .Append(name)
                 .Append(@"(double scalar) : base(scalar) { }
             public ")
                 .Append(name)
