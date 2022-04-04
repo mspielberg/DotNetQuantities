@@ -43,6 +43,11 @@ namespace QuantitiesNet
             return new Unit(symbol, Dimension, Scalar, Offset);
         }
 
+        public override string ToString()
+        {
+            return $"{Symbol} ({Dimension})";
+        }
+
         public static Unit operator * (Prefix p, Unit baseUnit)
         {
             if (baseUnit.Offset != 0)
@@ -93,6 +98,7 @@ namespace QuantitiesNet
         public static readonly Unit Gram = Register(Unit.Of<Mass>("g", 1));
         public static readonly Unit Milligram = Register(Milli * Gram);
         public static readonly Unit Kilogram = Register(Kilo * Gram);
+        public static readonly Unit Pound = Register(new Unit("lb", 453.59237, Gram));
 
         // Time
         public static readonly Unit Second = Register(Unit.Of<Time>("s", 1));
@@ -113,7 +119,10 @@ namespace QuantitiesNet
 
         // Power
         public static readonly Unit Watt = Register((Joule / Second).WithSymbol("W"));
+        public static readonly Unit MechanicalHorsepower = Register(new Unit("hp", 550, Pound * Foot / Second));
+
         // Velocity
+        public static readonly Unit KilometerPerHour = Register((Kilometer / Hour));
         public static readonly Unit MilePerHour = Register((Mile / Hour).WithSymbol("mph"));
     }
 }
