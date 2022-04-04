@@ -42,8 +42,8 @@ namespace QuantitiesNet
         [Fact]
         public void SymbolsShouldIncludeOperators()
         {
-            Assert.Equal("J*K", (Joule * Kelvin).Symbol);
-            Assert.Equal("km/h", (Kilometer / Hour).Symbol);
+            Assert.Equal("J\u22C5K", (Joule * Kelvin).Symbol);
+            Assert.Equal("km\u2215h", (Kilometer / Hour).Symbol);
         }
 
         [Fact]
