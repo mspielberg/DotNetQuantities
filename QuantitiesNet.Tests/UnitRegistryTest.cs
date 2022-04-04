@@ -13,7 +13,8 @@ namespace QuantitiesNet.Tests
         [Fact]
         public void TestEnumerateUnits()
         {
-            Assert.NotEmpty(UnitRegistry.Default.GetUnits<Length>());
+            Assert.True(UnitRegistry.Default.TryGetUnits<Length>(out var units));
+            Assert.NotEmpty(units);
         }
     }
 }
