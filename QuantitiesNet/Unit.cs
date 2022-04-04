@@ -108,6 +108,11 @@ namespace QuantitiesNet
         // Energy
         public static readonly Unit Joule = Register(Unit.Of<Energy>("J", 1));
 
+        // Force
+        public static readonly Unit Newton = Register((Kilogram * Meter / Second / Second).WithSymbol("N"));
+
+        // Power
+        public static readonly Unit Watt = Register((Joule / Second).WithSymbol("W"));
         // Velocity
         public static readonly Unit MilePerHour = Register((Mile / Hour).WithSymbol("mph"));
     }
