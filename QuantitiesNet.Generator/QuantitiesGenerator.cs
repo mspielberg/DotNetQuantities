@@ -12,10 +12,20 @@ namespace QuantitiesNet.Generator
             var classes = NamedDimensions.dimensions.Keys.Select(GenerateSingle);
 
             string source = $@"
+using System;
+using System.Collections.Generic;
+
 namespace QuantitiesNet
 {{
     public static class Quantities
     {{
+        public static string GetName(Dimension d)
+        {{
+            if (TypeForDimension.TryGetValue(d, out var dimensionType))
+                return dimensionType.Name;
+            return null;
+        }}
+{GenerateLookup()}
 {string.Join("\n", classes)}
     }}
 }}
@@ -76,6 +86,20 @@ namespace QuantitiesNet
         {
             return $@"
             public static {quotientName} operator / ({leftName} lhs, {rightName} rhs) => new {quotientName}(lhs.scalar / rhs.scalar);";
+        }
+
+        private string GenerateLookup()
+        {
+            var sb = new StringBuilder();
+            sb.Append(@"
+        public static readonly Dictionary<Dimension, Type> TypeForDimension = new Dictionary<Dimension, Type>()
+        {
+");
+            foreach (var name in NamedDimensions.dimensions.Keys)
+                sb.Append("            { Dimension.ForType<").Append(name).Append(">(), typeof(").Append(name).AppendLine(") },");
+            sb.Append(@"
+        };");
+            return sb.ToString();
         }
     }
 }
