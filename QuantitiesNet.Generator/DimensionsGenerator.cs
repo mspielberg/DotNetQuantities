@@ -14,7 +14,7 @@ namespace QuantitiesNet.Generator
             string source = $@"
 namespace QuantitiesNet
 {{
-    namespace Dimensions
+    public static class Dimensions
     {{
 {string.Join("\n", classes)}
     }}
