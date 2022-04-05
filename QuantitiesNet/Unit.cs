@@ -38,11 +38,6 @@ namespace QuantitiesNet
                 offset);
         }
 
-        public Unit WithSymbol(string symbol)
-        {
-            return new Unit(symbol, Dimension, Scalar, Offset);
-        }
-
         public override string ToString()
         {
             return $"{Symbol} ({Dimension})";
@@ -95,7 +90,7 @@ namespace QuantitiesNet
         public static readonly Unit Mile = Register(new Unit("mi", 1760, Yard));
 
         // Mass
-        public static readonly Unit Gram = Register(Unit.Of<Mass>("g", 1));
+        public static readonly Unit Gram = Register(Unit.Of<Mass>("g", 0.001));
         public static readonly Unit Milligram = Register(Milli * Gram);
         public static readonly Unit Kilogram = Register(Kilo * Gram);
         public static readonly Unit Pound = Register(new Unit("lb", 453.59237, Gram));
@@ -115,14 +110,19 @@ namespace QuantitiesNet
         public static readonly Unit Joule = Register(Unit.Of<Energy>("J", 1));
 
         // Force
-        public static readonly Unit Newton = Register((Kilogram * Meter / Second / Second).WithSymbol("N"));
+        public static readonly Unit Newton = Register(new Unit("J", 1, Kilogram * Meter / Second / Second));
 
         // Power
-        public static readonly Unit Watt = Register((Joule / Second).WithSymbol("W"));
+        public static readonly Unit Watt = Register(new Unit("W", 1, Joule / Second));
         public static readonly Unit MechanicalHorsepower = Register(new Unit("hp", 550, Pound * Foot / Second));
 
+        // Pressure
+        public static readonly Unit Pascal = Register(new Unit("Pa", 1, Newton / (Meter * Meter)));
+        public static readonly Unit Bar = Register(new Unit("bar", 100, Kilo * Pascal));
+        public static readonly Unit Psi = Register(new Unit("psi", 1, Pound / (Inch * Inch)));
+
         // Velocity
-        public static readonly Unit KilometerPerHour = Register((Kilometer / Hour));
-        public static readonly Unit MilePerHour = Register((Mile / Hour).WithSymbol("mph"));
+        public static readonly Unit KilometerPerHour = Register(Kilometer / Hour);
+        public static readonly Unit MilePerHour = Register(new Unit("mph", 1, Mile / Hour));
     }
 }
