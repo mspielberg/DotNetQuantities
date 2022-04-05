@@ -66,13 +66,11 @@ namespace QuantitiesNet
             return new Unit($"{u1.Symbol}\u22C5{u2.Symbol}", u1.Dimension * u2.Dimension, u1.Scalar * u2.Scalar);
         }
 
-        public const char DivisionOperator = '\u2215';
-
         public static Unit operator / (Unit u1, Unit u2)
         {
             if (u1.Offset != 0 || u2.Offset != 0)
                 throw new ArgumentException("Can only combine non-offset units");
-            return new Unit($"{u1.Symbol}{DivisionOperator}{u2.Symbol}", u1.Dimension / u2.Dimension, u1.Scalar / u2.Scalar);
+            return new Unit($"{u1.Symbol}/{u2.Symbol}", u1.Dimension / u2.Dimension, u1.Scalar / u2.Scalar);
         }
      }
 
