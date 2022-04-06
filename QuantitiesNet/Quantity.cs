@@ -37,12 +37,12 @@ namespace QuantitiesNet
 
         public static bool operator ==(Quantity q1, Quantity q2)
         {
-            return q1.Equals(q2);
+            return q1 is Quantity && q2 is Quantity && q1.Equals(q2);
         }
 
         public static bool operator !=(Quantity q1, Quantity q2)
         {
-            return !q1.Equals(q2);
+            return !(q1 == q2);
         }
 
         public double In(Unit unit)

@@ -1,4 +1,4 @@
-using QuantitiesNet.Dimensions;
+using static QuantitiesNet.Dimensions;
 using Xunit;
 
 namespace QuantitiesNet.Tests

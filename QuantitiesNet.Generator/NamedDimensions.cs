@@ -126,17 +126,20 @@ namespace QuantitiesNet.Generator
             var d = dimensions;
 
             d["Length"] = new Dimension(length: 1);
+            d["Mass"] = new Dimension(mass: 1);
+            d["Time"] = new Dimension(time: 1);
+            d["Temperature"] = new Dimension(temperature: 1);
+            d["AmountOfSubstance"] = new Dimension(amountOfSubstance: 1);
+
             d["Area"] = d["Length"] * d["Length"];
             d["Volume"] = d["Area"] * d["Length"];
 
-            d["Mass"] = new Dimension(mass: 1);
             d["Density"] = d["Mass"] / d["Volume"];
 
-            d["Time"] = new Dimension(time: 1);
+            d["MassFlow"] = d["Mass"] / d["Time"];
+
             d["Velocity"] = d["Length"] / d["Time"];
             d["Acceleration"] = d["Velocity"] / d["Time"];
-
-            d["Temperature"] = new Dimension(temperature: 1);
 
             d["Force"] = d["Mass"] * d["Acceleration"];
             d["Pressure"] = d["Force"] / d["Area"];
@@ -144,7 +147,6 @@ namespace QuantitiesNet.Generator
             d["Power"] = d["Energy"] / d["Time"];
             d["SpecificEnergy"] = d["Energy"] / d["Mass"];
             d["SpecificHeatCapacity"] = d["SpecificEnergy"] / d["Temperature"];
-            d["AmountOfSubstance"] = new Dimension(amountOfSubstance: 1);
             d["MolarMass"] = d["Mass"] / d["AmountOfSubstance"];
             d["MolarEnergy"] = d["Energy"] / d["AmountOfSubstance"];
             d["MolarHeatCapacity"] = d["MolarEnergy"] / d["Temperature"];

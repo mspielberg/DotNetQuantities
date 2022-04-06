@@ -52,8 +52,6 @@ namespace QuantitiesNet
 
         public static Unit operator * (Prefix p, Unit baseUnit)
         {
-            if (baseUnit.Offset != 0)
-                throw new ArgumentException("Can only combine non-offset units");
             return new Unit(p.symbol + baseUnit.Symbol, baseUnit.Dimension, p.scalar * baseUnit.Scalar);
         }
 
@@ -61,15 +59,11 @@ namespace QuantitiesNet
 
         public static Unit operator * (Unit u1, Unit u2)
         {
-            if (u1.Offset != 0 || u2.Offset != 0)
-                throw new ArgumentException("Can only combine non-offset units");
             return new Unit($"{u1.Symbol}\u22C5{u2.Symbol}", u1.Dimension * u2.Dimension, u1.Scalar * u2.Scalar);
         }
 
         public static Unit operator / (Unit u1, Unit u2)
         {
-            if (u1.Offset != 0 || u2.Offset != 0)
-                throw new ArgumentException("Can only combine non-offset units");
             return new Unit($"{u1.Symbol}/{u2.Symbol}", u1.Dimension / u2.Dimension, u1.Scalar / u2.Scalar);
         }
      }
@@ -118,6 +112,8 @@ namespace QuantitiesNet
 
         // Energy
         public static readonly Unit Joule = Register(Unit.Of<Energy>("J", 1));
+        public static readonly Unit Calorie = Register(Unit.Of<Energy>("cal", 4.184));
+        public static readonly Unit Btu = Register(Unit.Of<Energy>("btu", 1, Calorie * Pound / Gram * Fahrenheit / Celsius));
 
         // Force
         public static readonly Unit Newton = Register(Unit.Of<Force>("N", 1, Kilogram * Meter / Second / Second));
@@ -138,5 +134,9 @@ namespace QuantitiesNet
         // Velocity
         public static readonly Unit KilometerPerHour = Register(Kilometer / Hour);
         public static readonly Unit MilePerHour = Register(Unit.Of<Velocity>("mph", 1, Mile / Hour));
+
+        // Volume
+        public static readonly Unit Liter = Register(Unit.Of<Volume>("L", 1e-3, Meter * Meter * Meter));
+        public static readonly Unit USGallon = Register(Unit.Of<Volume>("gal", 231, Inch * Inch * Inch));
     }
 }
