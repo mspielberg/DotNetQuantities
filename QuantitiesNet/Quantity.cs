@@ -5,33 +5,33 @@ namespace QuantitiesNet
 {
     public class Quantity
     {
-        public readonly double scalar;
-        public readonly Dimension dimension;
+        public double Scalar { get; }
+        public virtual Dimension Dimension { get; }
 
         public Quantity(double scalar, Dimension dimension)
         {
-            this.scalar = scalar;
-            this.dimension = dimension;
+            this.Scalar = scalar;
+            this.Dimension = dimension;
         }
 
         public Quantity(double scalar, Unit unit)
         {
-            this.scalar = (scalar * unit.Scalar) + unit.Offset;
-            this.dimension = unit.Dimension;
+            this.Scalar = (scalar * unit.Scalar) + unit.Offset;
+            this.Dimension = unit.Dimension;
         }
 
         public override bool Equals(object obj)
         {
             return obj is Quantity quantity &&
-                   scalar == quantity.scalar &&
-                   EqualityComparer<Dimension>.Default.Equals(dimension, quantity.dimension);
+                   Scalar == quantity.Scalar &&
+                   EqualityComparer<Dimension>.Default.Equals(Dimension, quantity.Dimension);
         }
 
         public override int GetHashCode()
         {
             int hashCode = -689933752;
-            hashCode = hashCode * -1521134295 + scalar.GetHashCode();
-            hashCode = hashCode * -1521134295 + EqualityComparer<Dimension>.Default.GetHashCode(dimension);
+            hashCode = hashCode * -1521134295 + Scalar.GetHashCode();
+            hashCode = hashCode * -1521134295 + EqualityComparer<Dimension>.Default.GetHashCode(Dimension);
             return hashCode;
         }
 
@@ -51,33 +51,33 @@ namespace QuantitiesNet
 
         public double In(Unit unit)
         {
-            if (dimension != unit.Dimension)
-                throw new ArgumentException($"dimensions do not match: {dimension}, {unit.Dimension}");
-            return (scalar - unit.Offset) / unit.Scalar;
+            if (Dimension != unit.Dimension)
+                throw new ArgumentException($"dimensions do not match: {Dimension}, {unit.Dimension}");
+            return (Scalar - unit.Offset) / unit.Scalar;
         }
 
        public static Quantity operator +(Quantity q1, Quantity q2)
         {
-            if (q1.dimension != q2.dimension)
-                throw new ArgumentException($"dimensions do not match: {q1.dimension}, {q2.dimension}");
-            return new Quantity(q1.scalar + q2.scalar, q1.dimension);
+            if (q1.Dimension != q2.Dimension)
+                throw new ArgumentException($"dimensions do not match: {q1.Dimension}, {q2.Dimension}");
+            return new Quantity(q1.Scalar + q2.Scalar, q1.Dimension);
         }
 
         public static Quantity operator -(Quantity q1, Quantity q2)
         {
-            if (q1.dimension != q2.dimension)
-                throw new ArgumentException($"dimensions do not match: {q1.dimension}, {q2.dimension}");
-            return new Quantity(q1.scalar - q2.scalar, q1.dimension);
+            if (q1.Dimension != q2.Dimension)
+                throw new ArgumentException($"dimensions do not match: {q1.Dimension}, {q2.Dimension}");
+            return new Quantity(q1.Scalar - q2.Scalar, q1.Dimension);
         }
 
         public static Quantity operator *(Quantity q1, Quantity q2)
         {
-            return new Quantity(q1.scalar * q2.scalar, q1.dimension * q2.dimension);
+            return new Quantity(q1.Scalar * q2.Scalar, q1.Dimension * q2.Dimension);
         }
 
         public static Quantity operator /(Quantity q1, Quantity q2)
         {
-            return new Quantity(q1.scalar / q2.scalar, q1.dimension / q2.dimension);
+            return new Quantity(q1.Scalar / q2.Scalar, q1.Dimension / q2.Dimension);
         }
     }
 
@@ -85,16 +85,16 @@ namespace QuantitiesNet
     {
         public static Quantity Assert(this Quantity q, Dimension expected)
         {
-            if (q.dimension != expected)
-                throw new ArgumentException($"dimension does not match expectation: {q.dimension}");
+            if (q.Dimension != expected)
+                throw new ArgumentException($"dimension does not match expectation: {q.Dimension}");
             return q;
         }
 
         public static Quantity<D> Assert<D>(this Quantity q) where D : IDimension, new()
         {
-            if (q.dimension != Dimension.ForType<D>())
-                throw new ArgumentException($"dimension does not match expectation: {q.dimension}");
-            return new Quantity<D>(q.scalar);
+            if (q.Dimension != Dimension.ForType<D>())
+                throw new ArgumentException($"dimension does not match expectation: {q.Dimension}");
+            return new Quantity<D>(q.Scalar);
         }
     }
 
@@ -109,22 +109,31 @@ namespace QuantitiesNet
         {
         }
 
-        public Quantity(double scalar, Unit unit) : base(scalar, unit)
+        // public Quantity(double scalar, Unit unit) : base(scalar, unit)
+        // {
+        //     if (unit.Dimension != Dimension.ForType<D>())
+        //         throw new ArgumentException($"dimension does not match expectation: {unit.Dimension}");
+        // }
+
+        public Quantity(double scalar, Unit<D> unit) : this(scalar * unit.Scalar)
         {
-            if (unit.Dimension != Dimension.ForType<D>())
-                throw new ArgumentException($"dimension does not match expectation: {unit.Dimension}");
         }
 
-        public Dimension Dimension => Dimension.ForType<D>();
+        public override Dimension Dimension => Dimension.ForType<D>();
 
         public static Quantity<D> operator +(Quantity<D> q, Quantity<D> q2)
         {
-            return new Quantity<D>(q.scalar + q2.scalar);
+            return new Quantity<D>(q.Scalar + q2.Scalar);
         }
 
         public static Quantity<D> operator -(Quantity<D> q, Quantity<D> q2)
         {
-            return new Quantity<D>(q.scalar - q2.scalar);
+            return new Quantity<D>(q.Scalar - q2.Scalar);
         }
+
+        public static bool operator < (Quantity<D> lhs, Quantity<D> rhs) => lhs.Scalar < rhs.Scalar;
+        public static bool operator <= (Quantity<D> lhs, Quantity<D> rhs) => lhs.Scalar <= rhs.Scalar;
+        public static bool operator > (Quantity<D> lhs, Quantity<D> rhs) => lhs.Scalar > rhs.Scalar;
+        public static bool operator >= (Quantity<D> lhs, Quantity<D> rhs) => lhs.Scalar >= rhs.Scalar;
     }
 }

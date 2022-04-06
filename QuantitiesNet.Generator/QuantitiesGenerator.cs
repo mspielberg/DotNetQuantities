@@ -57,8 +57,13 @@ namespace QuantitiesNet
                 .Append(name)
                 .Append(@"(double scalar) : base(scalar) { }
             public ")
+            //     .Append(name)
+            //     .Append(@"(double scalar, Unit unit) : base(scalar, unit) { }
+            // public ")
                 .Append(name)
-                .Append(@"(double scalar, Unit unit) : base(scalar, unit) { }
+                .Append(@"(double scalar, Unit<Dimensions.")
+                .Append(name)
+                .Append(@"> unit) : base(scalar, unit) { }
 ");
 
             foreach (var otherName in NamedDimensions.dimensions.Keys.OrderBy(x => x))
@@ -79,13 +84,13 @@ namespace QuantitiesNet
         public string MultiplyOperator(string leftName, string rightName, string productName)
         {
             return $@"
-            public static {productName} operator * ({leftName} lhs, {rightName} rhs) => new {productName}(lhs.scalar * rhs.scalar);";
+            public static {productName} operator * ({leftName} lhs, {rightName} rhs) => new {productName}(lhs.Scalar * rhs.Scalar);";
         }
 
         public string DivideOperator(string leftName, string rightName, string quotientName)
         {
             return $@"
-            public static {quotientName} operator / ({leftName} lhs, {rightName} rhs) => new {quotientName}(lhs.scalar / rhs.scalar);";
+            public static {quotientName} operator / ({leftName} lhs, {rightName} rhs) => new {quotientName}(lhs.Scalar / rhs.Scalar);";
         }
 
         private string GenerateLookup()
