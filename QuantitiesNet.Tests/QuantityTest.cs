@@ -33,5 +33,18 @@ namespace QuantitiesNet.Tests
             Assert.IsType<Quantity<Length>>(typed);
             Assert.Equal(Length.dimension, typed.dimension);
         }
+
+        [Fact]
+        public void TestNullComparison()
+        {
+            var q = new Quantity(10, Length.dimension);
+            Assert.True(q != null);
+            Assert.True(null != q);
+            Assert.False(q == null);
+            Assert.False(null == q);
+            Assert.True((Quantity)null == null);
+            Assert.True(null == (Quantity)null);
+            Assert.True((Quantity)null == (Quantity)null);
+        }
     }
 }
