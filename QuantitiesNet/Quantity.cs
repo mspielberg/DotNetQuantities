@@ -115,7 +115,7 @@ namespace QuantitiesNet
         //         throw new ArgumentException($"dimension does not match expectation: {unit.Dimension}");
         // }
 
-        public Quantity(double scalar, Unit<D> unit) : this(scalar * unit.Scalar)
+        public Quantity(double scalar, Unit<D> unit) : base(scalar, unit)
         {
         }
 
